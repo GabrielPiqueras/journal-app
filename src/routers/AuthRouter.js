@@ -5,10 +5,14 @@ import { RegisterPage } from '../components/auth/RegisterPage';
 
 export const AuthRouter = () => {
   return (
-      <Routes>
-        <Route exact path='/auth/login' element={ <LoginPage /> } />
-        <Route exact path='auth/register' element={ <RegisterPage /> } />
-        <Route path='*' element={ <Navigate to='/auth/login' replace /> } />
-      </Routes>
+      <div className='auth__main'>
+        <div className='auth__box-container'>
+          <Routes>
+            <Route exact path='/auth/login' element={ <LoginPage /> } />
+            <Route exact path='auth/register' element={ <RegisterPage /> } />
+            <Route path='*' element={ <Navigate to='/auth/login' replace /> } />
+          </Routes>
+        </div>
+      </div>
   )
 } 

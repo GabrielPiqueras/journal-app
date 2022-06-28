@@ -1,3 +1,10 @@
+@import './bases/_bases.scss';
+@import './bases/_settings.scss';
+
+// Components
+@import './components/auth';
+@import './components/buttons';
+
 html, body {
-    background-color: blue;
+    background-color: $primary;
 }
