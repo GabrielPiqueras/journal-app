@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export const LoginPage = () => {
   return (
@@ -40,7 +40,7 @@ export const LoginPage = () => {
           </div>
         </div>
 
-        <Link to='/auth/register'>
+        <Link to='/auth/register' className='link'>
           Create new account
         </Link>
       </form>
