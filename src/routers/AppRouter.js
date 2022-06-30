@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { JournalPage } from '../components/journal/JournalPage';
+import { JournalScreen } from '../components/journal/JournalScreen';
 import { AuthRouter } from './AuthRouter';
 
 export const AppRouter = () => {
@@ -8,7 +8,7 @@ export const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        <Route exact path='/' element={ <JournalPage /> }></Route>
+        <Route exact path='/' element={ <JournalScreen /> }></Route>
         <Route path='*' element={ <AuthRouter /> }></Route>
       </Routes>
     </Router>
