@@ -3,8 +3,6 @@ import { AppRouter } from './routers/AppRouter';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 
-console.log(store);
-
 export const JournalApp = () => {
   return (
     <div>

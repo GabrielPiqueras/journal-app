@@ -1,12 +1,53 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+// Actions 
+import { login } from '../../actions/auth';
+
+// Firebase
+import { db } from '../../firebase/config';
+import { collection,  query, where, onSnapshot } from 'firebase/firestore';
+import { getDocsFromCollection } from '../../helpers/getDocsFromCollection';
+import { getDocFromCollection } from '../../helpers/getDocFromCollection';
 
 export const LoginPage = () => {
+
+  /******************************************** */
+  const data = [];
+  const users = collection(db, 'users');
+  const q = query(users, where('salario', '>', 1000));
+
+  const documents = onSnapshot(q, (docs) => {
+      docs.forEach(doc => {
+        data.push({
+          id: doc.id,
+          ...doc.data()
+        })
+      })
+  })
+
+  console.log(data);
+  console.log('FIN EJECUCIÓN');
+  
+  /******************************************** */
+  const dispatch = useDispatch();
+
+  const handleLogin = (e) => {
+      e.preventDefault();
+      
+      const { email, password } = Object.fromEntries(
+        new FormData(e.target)
+      );
+
+      dispatch(login(12345, 'Pepito'));
+  }
+
   return (
     <>
       <h3 className='auth__title'>Login</h3>
 
-      <form>
+      <form onSubmit={ handleLogin }>
         <input
           type="text"
           placeholder="Email"
