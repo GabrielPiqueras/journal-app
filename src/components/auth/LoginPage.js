@@ -7,30 +7,43 @@ import { login } from '../../actions/auth';
 
 // Firebase
 import { db } from '../../firebase/config';
-import { collection,  query, where, onSnapshot } from 'firebase/firestore';
+import { collection,  query, where, onSnapshot, orderBy, doc, getDoc, getDocs } from 'firebase/firestore';
 import { getDocsFromCollection } from '../../helpers/getDocsFromCollection';
 import { getDocFromCollection } from '../../helpers/getDocFromCollection';
 
 export const LoginPage = () => {
 
   /******************************************** */
-  const data = [];
   const users = collection(db, 'users');
-  const q = query(users, where('salario', '>', 1000));
+  const document = doc(users, 'FW7xPaXIOVM2L6rlfK9z');
+  
 
-  const documents = onSnapshot(q, (docs) => {
-      docs.forEach(doc => {
-        data.push({
-          id: doc.id,
-          ...doc.data()
-        })
-      })
-  })
 
-  console.log(data);
   console.log('FIN EJECUCIÓN');
   
   /******************************************** */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const dispatch = useDispatch();
 
   const handleLogin = (e) => {
