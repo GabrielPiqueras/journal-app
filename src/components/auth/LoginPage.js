@@ -7,44 +7,31 @@ import { login } from '../../actions/auth';
 
 // Firebase
 import { db } from '../../firebase/config';
-import { collection,  query, where, onSnapshot, orderBy, doc, getDoc, getDocs } from 'firebase/firestore';
-import { getDocsFromCollection } from '../../helpers/getDocsFromCollection';
-import { getDocFromCollection } from '../../helpers/getDocFromCollection';
+import { collection, query, where, onSnapshot, orderBy, doc, getDoc, getDocs, limit } from 'firebase/firestore';
+import { async } from '@firebase/util';
 
 export const LoginPage = () => {
 
-  /******************************************** */
-  const users = collection(db, 'users');
-  const document = doc(users, 'FW7xPaXIOVM2L6rlfK9z');
-  
-
-
-  console.log('FIN EJECUCIÓN');
-  
-  /******************************************** */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const dispatch = useDispatch();
+
+  const userExists = (email) => {
+    const users = collection(db, 'users');
+    const data = [];
+
+    const q = query(users, where('email', '==', email), limit(1));
+
+    const document = onSnapshot(q, (docs) => {
+      docs.forEach(doc => {
+        console.log(doc.data());
+          data.push({
+              id: doc.id,
+              ...doc.data()
+          })
+      })
+    })
+      
+    return data;
+  }
 
   const handleLogin = (e) => {
       e.preventDefault();
@@ -53,7 +40,15 @@ export const LoginPage = () => {
         new FormData(e.target)
       );
 
-      dispatch(login(12345, 'Pepito'));
+      const user = userExists(email);
+
+      if (user) {
+        alert(`El email ${email} existe!!`);
+        // dispatch(login(12345, 'Pepito'));
+      } else {
+        alert(`El email ${email} NO existe...`);
+      }
+
   }
 
   return (
