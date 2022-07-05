@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 // Actions 
-import { login } from '../../actions/auth';
+import { login, startGoogleLogin, startLoginEmailPassword } from '../../actions/auth';
 
 // Firebase
 import { db } from '../../firebase/config';
@@ -14,24 +14,24 @@ export const LoginPage = () => {
 
   const dispatch = useDispatch();
 
-  const userExists = (email) => {
-    const users = collection(db, 'users');
-    const data = [];
+  // const userExists = (email) => {
+  //   const users = collection(db, 'users');
+  //   const data = [];
 
-    const q = query(users, where('email', '==', email), limit(1));
+  //   const q = query(users, where('email', '==', email), limit(1));
 
-    const document = onSnapshot(q, (docs) => {
-      docs.forEach(doc => {
-        console.log(doc.data());
-          data.push({
-              id: doc.id,
-              ...doc.data()
-          })
-      })
-    })
+  //   const document = onSnapshot(q, (docs) => {
+  //     docs.forEach(doc => {
+  //       console.log(doc.data());
+  //         data.push({
+  //             id: doc.id,
+  //             ...doc.data()
+  //         })
+  //     })
+  //   })
       
-    return data;
-  }
+  //   return data;
+  // }
 
   const handleLogin = (e) => {
       e.preventDefault();
@@ -40,15 +40,20 @@ export const LoginPage = () => {
         new FormData(e.target)
       );
 
-      const user = userExists(email);
+      // const user = userExists(email);
 
-      if (user) {
-        alert(`El email ${email} existe!!`);
-        // dispatch(login(12345, 'Pepito'));
-      } else {
-        alert(`El email ${email} NO existe...`);
-      }
+      dispatch(startLoginEmailPassword(email, password));
+      
+      // if (user) {
+      //   alert(`El email ${email} existe!!`);
+      // } else {
+      //   alert(`El email ${email} NO existe...`);
+      // }
 
+  }
+
+  const handleGoogleLogin = () => {
+    dispatch(startGoogleLogin());
   }
 
   return (
@@ -79,7 +84,7 @@ export const LoginPage = () => {
         <div className="auth__social-networks">
           <p>Login with social networks</p>
 
-          <div className="google-btn">
+          <div className="google-btn" onClick={ handleGoogleLogin }>
               <div className="google-icon-wrapper">
                   <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google button" />
               </div>
