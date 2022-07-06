@@ -8,12 +8,11 @@ import { login, startGoogleLogin, startLoginEmailPassword } from '../../actions/
 // Firebase
 import { db } from '../../firebase/config';
 import { collection, query, where, onSnapshot, orderBy, doc, getDoc, getDocs, limit } from 'firebase/firestore';
-import { async } from '@firebase/util';
 
 export const LoginPage = () => {
 
   const dispatch = useDispatch();
-
+  
   // const userExists = (email) => {
   //   const users = collection(db, 'users');
   //   const data = [];

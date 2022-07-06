@@ -1,5 +1,8 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { types } from '../types/types';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../firebase/config';
+import { uiSetError } from './ui';
 
 export const login = (uid, displayName) => {
     return {
@@ -16,6 +19,27 @@ export const startLoginEmailPassword = (email, password) => {
         setTimeout(() => {
             dispatch( login('123', 'Pedro'));
         }, 3500); 
+    }
+}
+
+export const startRegister = ({name, email, password}) => {
+    return (dispatch) => {
+        
+        const users = collection(db, 'users');
+
+        addDoc(users, {
+            name: name,
+            email: email,
+            password: password
+        })
+        .then(docRef => {
+            console.log('docRef', docRef);
+            dispatch(login(docRef.id, name))
+        })
+        .catch(err => {
+            dispatch(uiSetError('Hubo un error al registrar el usuario'));
+            throw new Error(err);
+        });
     }
 }
 
