@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 // Actions 
@@ -8,11 +8,14 @@ import { login, startGoogleLogin, startLoginEmailPassword } from '../../actions/
 // Firebase
 import { db } from '../../firebase/config';
 import { collection, query, where, onSnapshot, orderBy, doc, getDoc, getDocs, limit } from 'firebase/firestore';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export const LoginPage = () => {
 
   const dispatch = useDispatch();
-  
+  const { loading } = useSelector(({auth}) => auth);
+  console.log('loading', loading);
+
   // const userExists = (email) => {
   //   const users = collection(db, 'users');
   //   const data = [];
@@ -76,7 +79,7 @@ export const LoginPage = () => {
           autoComplete='off'
         />
         
-        <button type="submit" className='btn btn-primary btn-block'>
+        <button type="submit" className='btn btn-primary btn-block' disabled={loading}> 
           Login
         </button>
 
