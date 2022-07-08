@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 // Actions 
 import { login, startGoogleLogin, startLoginEmailPassword } from '../../actions/auth';
+import { uiFinishLoading, uiStartLoading } from '../../actions/ui';
 
 // Firebase
 import { db } from '../../firebase/config';
@@ -13,45 +14,21 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 export const LoginPage = () => {
 
   const dispatch = useDispatch();
-  const { loading } = useSelector(({auth}) => auth);
-  console.log('loading', loading);
-
-  // const userExists = (email) => {
-  //   const users = collection(db, 'users');
-  //   const data = [];
-
-  //   const q = query(users, where('email', '==', email), limit(1));
-
-  //   const document = onSnapshot(q, (docs) => {
-  //     docs.forEach(doc => {
-  //       console.log(doc.data());
-  //         data.push({
-  //             id: doc.id,
-  //             ...doc.data()
-  //         })
-  //     })
-  //   })
-      
-  //   return data;
-  // }
-
+  const { loading } = useSelector(({ui}) => ui);
+  
   const handleLogin = (e) => {
       e.preventDefault();
-      
+
+      dispatch(uiStartLoading());
+
+      console.log('loading', loading);
+
       const { email, password } = Object.fromEntries(
         new FormData(e.target)
       );
 
-      // const user = userExists(email);
-
       dispatch(startLoginEmailPassword(email, password));
-      
-      // if (user) {
-      //   alert(`El email ${email} existe!!`);
-      // } else {
-      //   alert(`El email ${email} NO existe...`);
-      // }
-
+      dispatch(uiFinishLoading());
   }
 
   const handleGoogleLogin = () => {
