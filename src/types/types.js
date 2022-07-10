@@ -6,6 +6,11 @@ export const types = {
     uiSetError: '[UI] Set Error',
     uiRemoveError: '[UI] Remove Error',
     uiStartLoading: '[UI] Start Loading',
-    uiFinishLoading: '[UI] Finish Loading'
-    
+    uiFinishLoading: '[UI] Finish Loading',
+
+    notesList: '[Notes] Show',
+    noteAdd: '[Notes] Add',
+    noteSelect: '[Notes] Select',
+    noteUpdate: '[Notes] Update',
+    noteRemove: '[Notes] Remove',
 }

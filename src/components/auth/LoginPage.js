@@ -5,15 +5,12 @@ import { Link } from 'react-router-dom';
 // Actions 
 import { startGoogleLogin, startLoginEmailPassword } from '../../actions/auth';
 
-/**cd 
+/**
  * Muestra formulario para iniciar sesión en la aplicación, puede ser
  * tanto con correo y contraseña como con cuenta de Google. Usa animación.
  * 
- * Ejecutar acciones sobre el store.
- * @var {function} dispatch
- * 
- * Dice si la aplicación está cargando o no.
- * @var {boolean} loading
+ * @var {function} dispatch: Ejecutar acciones sobre el store.
+ * @var {boolean} loading: Dice si la aplicación está cargando o no.
  * 
  * @returns {jsx}
  */
@@ -22,6 +19,14 @@ export const LoginPage = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector(({ui}) => ui);
   
+  /**
+   * Inicia sesión con correo y contraseña.
+   * 
+   * @param {event} e: evento
+   * 
+   * @var {string} email: Correo introducido
+   * @var {string} password: Contraseña introducida
+   */
   const handleLogin = (e) => {
       e.preventDefault();
       
@@ -32,6 +37,7 @@ export const LoginPage = () => {
       dispatch(startLoginEmailPassword(email, password));
   }
 
+  /** Inicia sesión con Google */
   const handleGoogleLogin = () => {
     dispatch(startGoogleLogin());
   }

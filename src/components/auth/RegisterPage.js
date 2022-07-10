@@ -48,6 +48,7 @@ export const RegisterPage = () => {
     return true;
   }
 
+  // Alert con error
   if (msgError) {
     Swal.fire('Error', msgError, 'error');
   }
