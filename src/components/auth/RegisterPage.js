@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiRemoveError, uiSetError } from '../../actions/ui';
 import { startRegister } from '../../actions/auth';
+import Swal from 'sweetalert2';
 
 export const RegisterPage = () => {
 
   const dispatch = useDispatch();
-  const { msgError } = useSelector(({ui}) => ui);
+  const { loading, msgError } = useSelector(({ui}) => ui);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -46,6 +47,10 @@ export const RegisterPage = () => {
     dispatch(uiRemoveError());
     return true;
   }
+
+  if (msgError) {
+    Swal.fire('Error', msgError, 'error');
+  }
   
   return (
     <>
@@ -53,15 +58,6 @@ export const RegisterPage = () => {
 
       <form onSubmit={ handleRegister }>
 
-        {
-          msgError
-          &&
-          (
-            <div className='auth__alert-error'>
-              { msgError }
-            </div>
-          )
-        }
         <input
           type="text"
           placeholder="Name"
@@ -94,7 +90,7 @@ export const RegisterPage = () => {
           autoComplete='off'
         />
         
-        <button type="submit" className='btn btn-primary btn-block mb-5'>
+        <button type="submit" className='btn btn-primary btn-block mb-5' disabled={loading}>
           Register
         </button>
 

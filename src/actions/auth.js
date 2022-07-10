@@ -12,6 +12,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { uiFinishLoading, uiSetError, uiStartLoading } from './ui';
 import { async } from '@firebase/util';
+import Swal from 'sweetalert2';
 
 export const login = (uid, displayName) => {
     return {
@@ -25,13 +26,19 @@ export const login = (uid, displayName) => {
 
 export const startLoginEmailPassword = (email, password) => {
     return async (dispatch) => {
-        dispatch(uiStartLoading());
+        try {
+            dispatch(uiStartLoading());
+    
+            const auth = getAuth();
+            const { user } = await signInWithEmailAndPassword(auth, email, password);
 
-        const auth = getAuth();
-        const { user } = await signInWithEmailAndPassword(auth, email, password);
+            dispatch(uiFinishLoading());
+            dispatch(login(user.uid, user.displayName));
 
-        dispatch(uiFinishLoading());
-        dispatch(login(user.uid, user.displayName));
+        } catch (error) {
+            Swal.fire('Error', error.message, 'error');
+            dispatch(uiFinishLoading());
+        }
     }
 }
 
@@ -45,42 +52,22 @@ export const startLogout = () => {
 }
 
 export const startRegister = ({name, email, password}) => {
-    return (dispatch) => {
+    return async (dispatch) => {
+        try {
+            dispatch(uiStartLoading());
 
-        const auth = getAuth();
-
-        createUserWithEmailAndPassword(auth, email, password)
-        .then( async({user}) => {
+            const auth = getAuth();
+            const {user} = await createUserWithEmailAndPassword(auth, email, password);
+            
             await updateProfile(user, { displayName: name});
-
             dispatch(login(user.uid, user.displayName));
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            dispatch(uiFinishLoading());
+        } catch (error) {
+            Swal.fire('Error', error.message, 'error');
+            dispatch(uiFinishLoading());
+        }
     }
 }
-
-// export const startRegister = ({name, email, password}) => {
-//     return (dispatch) => {
-        
-//         const users = collection(db, 'users');
-
-//         addDoc(users, {
-//             name: name,
-//             email: email,
-//             password: password
-//         })
-//         .then(user => {
-//             console.log('docRef', user);
-//             dispatch(login(user.id, name))
-//         })
-//         .catch(err => {
-//             dispatch(uiSetError('Hubo un error al registrar el usuario'));
-//             throw new Error(err);
-//         });
-//     }
-// }
 
 export const startGoogleLogin = () => {
     return (dispatch) => {

@@ -23,7 +23,6 @@ export const AppRouter = () => {
     // autenticado, en caso de ser así recibo ese usuario e inicio su sesión
     // con la accion del Login
     onAuthStateChanged(auth, (user) => {
-      console.log('user', user);
       // Si user existe y el uid no es nulo
       if ( user?.uid ) {
         dispatch(login(user.uid, user.displayName));
@@ -36,13 +35,9 @@ export const AppRouter = () => {
       setChecking(false);
     })
   }, [ dispatch, setChecking, setIsLogged ]) // por el warning de que tiene esa dependencia
-  
-  console.log('checking', checking);
-  console.log('isLogged', isLogged);
 
   if ( checking ) {
     return <Loading />
-    // return <h1>Espere...</h1>
   }
   
   return (

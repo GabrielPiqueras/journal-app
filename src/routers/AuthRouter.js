@@ -6,7 +6,6 @@ import { RegisterPage } from '../components/auth/RegisterPage';
 
 export const AuthRouter = () => {
 
-  console.log('Ejecuto AuthRouter');
   return (
       <div className='auth__main'>
         <div className='auth__box-container'>

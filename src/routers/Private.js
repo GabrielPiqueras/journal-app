@@ -6,9 +6,7 @@ export const Private = ({ isAuth, component: Component }) => {
 
     const { pathname } = useLocation();
     localStorage.setItem('lastPath', pathname);
-     
-    console.log('Redirigo a /auth/login');
-    
+         
     return (
         ( isAuth )
         ? <Component />
