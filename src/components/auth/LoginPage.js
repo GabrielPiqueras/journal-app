@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 // Actions 
 import { login, startGoogleLogin, startLoginEmailPassword } from '../../actions/auth';
-import { uiFinishLoading, uiStartLoading } from '../../actions/ui';
+// import { uiFinishLoading, uiStartLoading } from '../../actions/ui';
 
 // Firebase
 import { db } from '../../firebase/config';
@@ -18,17 +18,12 @@ export const LoginPage = () => {
   
   const handleLogin = (e) => {
       e.preventDefault();
-
-      dispatch(uiStartLoading());
-
-      console.log('loading', loading);
-
+      
       const { email, password } = Object.fromEntries(
         new FormData(e.target)
       );
 
       dispatch(startLoginEmailPassword(email, password));
-      dispatch(uiFinishLoading());
   }
 
   const handleGoogleLogin = () => {
@@ -36,11 +31,12 @@ export const LoginPage = () => {
   }
 
   return (
-    <>
+    <div className='animate__animated  animate__fadeIn animate__fast'>
       <h3 className='auth__title'>Login</h3>
 
       <form onSubmit={ handleLogin }>
         <input
+          defaultValue='rocamora_gabriel@hotmail.com'
           type="text"
           placeholder="Email"
           name="email"
@@ -49,6 +45,7 @@ export const LoginPage = () => {
         />
 
         <input
+          defaultValue='adventure2012'
           type="password"
           placeholder="Password"
           name="password"
@@ -77,6 +74,6 @@ export const LoginPage = () => {
           Create new account
         </Link>
       </form>
-    </>
+    </div>
   )
 }

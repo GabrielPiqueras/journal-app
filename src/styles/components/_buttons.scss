@@ -24,9 +24,13 @@
 
     &:disabled {
         background-color: lighten($color: $primary, $amount: 15);
+
+        &:hover {
+            cursor: default;
+        }
     }
 
-    &:hover {
+    &:hover:enabled{
         background-color: darken($color: $primary, $amount: 20);
     }
 }

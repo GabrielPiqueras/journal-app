@@ -1,6 +1,7 @@
 import {
     getAuth,
     signInWithPopup,
+    signOut,
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
     updateProfile,
@@ -9,7 +10,7 @@ import {
 import { types } from '../types/types';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebase/config';
-import { uiSetError } from './ui';
+import { uiFinishLoading, uiSetError, uiStartLoading } from './ui';
 import { async } from '@firebase/util';
 
 export const login = (uid, displayName) => {
@@ -24,10 +25,22 @@ export const login = (uid, displayName) => {
 
 export const startLoginEmailPassword = (email, password) => {
     return async (dispatch) => {
+        dispatch(uiStartLoading());
+
         const auth = getAuth();
-        
         const { user } = await signInWithEmailAndPassword(auth, email, password);
+
+        dispatch(uiFinishLoading());
         dispatch(login(user.uid, user.displayName));
+    }
+}
+
+export const startLogout = () => {
+    return async (dispatch) => {
+        const auth = getAuth();
+
+        await signOut(auth);
+        dispatch(logout());
     }
 }
 
