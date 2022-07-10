@@ -3,14 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 // Actions 
-import { login, startGoogleLogin, startLoginEmailPassword } from '../../actions/auth';
-// import { uiFinishLoading, uiStartLoading } from '../../actions/ui';
+import { startGoogleLogin, startLoginEmailPassword } from '../../actions/auth';
 
-// Firebase
-import { db } from '../../firebase/config';
-import { collection, query, where, onSnapshot, orderBy, doc, getDoc, getDocs, limit } from 'firebase/firestore';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-
+/**cd 
+ * Muestra formulario para iniciar sesión en la aplicación, puede ser
+ * tanto con correo y contraseña como con cuenta de Google. Usa animación.
+ * 
+ * Ejecutar acciones sobre el store.
+ * @var {function} dispatch
+ * 
+ * Dice si la aplicación está cargando o no.
+ * @var {boolean} loading
+ * 
+ * @returns {jsx}
+ */
 export const LoginPage = () => {
 
   const dispatch = useDispatch();
