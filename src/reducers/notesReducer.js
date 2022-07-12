@@ -24,7 +24,10 @@ export const notesReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case types.notesLoad:
-            return state
+
+            const objeto = { ...state, notes: action.payload };
+            console.log('objeto', objeto);
+            return objeto
         case types.notesActive:
             return { ...state, active: action.payload }
         case types.notesAddNew:

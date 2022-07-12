@@ -2,7 +2,15 @@
 // Firebase
 import { db } from '../firebase/config';
 import { addDoc, collection } from 'firebase/firestore';
-import { useSelector } from 'react-redux';
+import { onSnapshot } from 'firebase/firestore';
+import { types } from '../types/types';
+
+export const notesLoad = (notes) => {
+    return {
+        type: types.notesLoad,
+        payload: notes
+    }
+}
 
 export const notesAddNew = () => {
     return async(dispatch, getState) => {
@@ -14,7 +22,6 @@ export const notesAddNew = () => {
             date: new Date().getTime() // ms
         }
         const doc = await addDoc(collection(db, `${uid}/journal/notes`), newNote);
-        console.log('doc', doc);
     }  
 }
 
@@ -22,8 +29,20 @@ export const notesActive = () => {
 
 }
 
-export const notesLoad = () => {
+export const startLoadNotes = () => {
+    return (dispatch, getState) => {
 
+        const { uid } = getState().auth;
+        const coll = collection(db, `${uid}/journal/notes`);
+        let notesData = [];
+
+        const notes = onSnapshot(coll, (notes) => {
+            notes.forEach(note => notesData.push({ id: note.id, ...note.data() }))
+        });
+        
+        console.log(notesData);
+        dispatch(notesLoad(notesData));
+    }
 }
 
 export const notesUpdate = () => {
