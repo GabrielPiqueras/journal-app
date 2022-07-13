@@ -3,11 +3,12 @@ import { JournalEntries } from './JournalEntries';
 import { useDispatch, useSelector } from 'react-redux';
 import { startLogout } from '../../actions/auth';
 import { notesAddNew } from '../../actions/notes';
+import { loadNotes } from '../../helpers/loadNotes';
  
 export const Sidebar = () => {
 
     const dispatch = useDispatch();
-    const { name } = useSelector(({auth}) => auth);
+    const { uid, name } = useSelector(({auth}) => auth);
 
     const handleLogout = () => {
         dispatch(startLogout())

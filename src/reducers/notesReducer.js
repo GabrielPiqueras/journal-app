@@ -23,15 +23,31 @@ export const notesReducer = (state = initialState, action) => {
 
     switch (action.type) {
 
-        case types.notesLoad:
+        case types.noteActive:
+            return {
+                ...state,
+                active: {
+                    ...action.payload
+                }
+            }
 
-            const objeto = { ...state, notes: action.payload };
-            console.log('objeto', objeto);
-            return objeto
-        case types.notesActive:
-            return { ...state, active: action.payload }
-        case types.notesAddNew:
-            return {}
+        case types.notesLoad:
+            return {
+                ...state,
+                notes: action.payload
+            }
+        // case types.notesActive:
+        //     return { ...state, active: action.payload }
+        // case types.notesAddNew:
+        //     return {}
+        // case types.notesDelete:
+        //     const notes = state.notes.filter(note => note.id !== action.payload);
+        //     return { ...state, notes }
+
+
+        // case types.notesActive:
+        //     state.map();
+        //     return state
         // case types.noteAdd:
         //     return [...state, action.payload];
         // case types.noteUpdate:

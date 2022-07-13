@@ -5,6 +5,7 @@ import { JournalScreen } from '../components/journal/JournalScreen';
 import { AuthRouter } from './AuthRouter';
 import { useDispatch } from 'react-redux';
 import { login } from '../actions/auth';
+import { startLoadingNotes } from '../actions/notes';
 import { Private } from './Private';
 import { Public } from './Public';
 import { Loading } from '../components/ui/Loading';
@@ -26,8 +27,9 @@ export const AppRouter = () => {
       // Si user existe y el uid no es nulo
       if ( user?.uid ) {
         dispatch(login(user.uid, user.displayName));
-
         setIsLogged(true);
+       
+        dispatch(startLoadingNotes(user.uid));
       } else {
         setIsLogged(false);
       }
