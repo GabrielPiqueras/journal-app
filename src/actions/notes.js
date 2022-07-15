@@ -38,9 +38,9 @@ export const noteActive = (id, note) => {
 }
 
 export const startLoadingNotes = (uid) => {
-    return (dispatch) => {
-        const notes = loadNotes(uid);
-        console.log('notes', notes);
+    return async (dispatch) => {
+        const notes = await loadNotes(uid);
+        console.log('startLoadingNotes -> notes', notes);
         dispatch(setNotes(notes));
     }
 }
@@ -83,6 +83,7 @@ export const notesDelete = (noteId) => {
 }
 
 export const setNotes = (notes) => {
+    console.log('llegan notas', notes);
     return {
         type: types.notesLoad,
         payload: notes

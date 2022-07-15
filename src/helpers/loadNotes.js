@@ -9,7 +9,5 @@ export const loadNotes = (uid) => {
         notes.forEach(note => data.push({ id: note.id, ...note.data()}))
     })
 
-    console.log('data', data);
-
     return data;
 }

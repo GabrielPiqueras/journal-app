@@ -16,27 +16,27 @@ export const AppRouter = () => {
   const dispatch = useDispatch();
 
   const [ checking, setChecking ] = useState(true);
-  const [ isLogged, setIsLogged ] = useState(false);
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
 
   useEffect(() => {
     
     // onAuthStateChanged es un Observable que comprueba si hay un usuario
     // autenticado, en caso de ser así recibo ese usuario e inicio su sesión
     // con la accion del Login
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       // Si user existe y el uid no es nulo
       if ( user?.uid ) {
-        dispatch(login(user.uid, user.displayName));
-        setIsLogged(true);
-       
-        dispatch(startLoadingNotes(user.uid));
+        dispatch( login( user.uid, user.displayName ) );
+        setIsLoggedIn( true );
+        dispatch( startLoadingNotes( user.uid ) );
+        
       } else {
-        setIsLogged(false);
+          setIsLoggedIn( false );
       }
 
       setChecking(false);
-    })
-  }, [ dispatch, setChecking, setIsLogged ]) // por el warning de que tiene esa dependencia
+      })
+  }, [ dispatch, setChecking, setIsLoggedIn, auth ]) // por el warning de que tiene esa dependencia
 
   if ( checking ) {
     return <Loading />
@@ -45,9 +45,9 @@ export const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        <Route path='/auth' element={ <Public isAuth={isLogged} component={AuthRouter} /> }></Route>
-        <Route exact path='/' element={ <Private isAuth={isLogged} component={JournalScreen} /> }></Route>
-        <Route path='*' element={ <Public isAuth={isLogged} component={AuthRouter} /> }></Route>
+        <Route path='/auth' element={ <Public isAuth={isLoggedIn} component={AuthRouter} /> }></Route>
+        <Route exact path='/' element={ <Private isAuth={isLoggedIn} component={JournalScreen} /> }></Route>
+        <Route path='*' element={ <Public isAuth={isLoggedIn} component={AuthRouter} /> }></Route>
 
         {/* <Route exact path='/' element={ <JournalScreen /> }></Route>
         <Route path='*' element={ <AuthRouter /> }></Route> */}
