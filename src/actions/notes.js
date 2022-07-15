@@ -13,21 +13,31 @@ export const notesLoad = (notes) => {
     }
 }
 
-export const notesAddNew = () => {
+export const startNewNote = () => {
     return async(dispatch, getState) => {
         const { uid } = getState().auth;
+        
         const newNote = {
             title: '',
             body: '',
             imageUrl: '',
             date: new Date().getTime() // ms
         }
+
         const doc = await addDoc(collection(db, `${uid}/journal/notes`), newNote);
-        dispatch(noteActive(doc.id, newNote));
+        dispatch(activeNote(doc.id, newNote));
+        dispatch(addNewNote(doc.id, newNote));
     }
 }
 
-export const noteActive = (id, note) => {
+export const addNewNote = ( id, note ) => ({
+    type: types.notesAddNew,
+    payload: {
+        id, ...note
+    }
+})
+
+export const activeNote = (id, note) => {
     return {
         type: types.noteActive,
         payload: {
