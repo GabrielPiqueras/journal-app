@@ -6,7 +6,7 @@ export const JournalEntries = () => {
 
     const { notes } = useSelector((state) => state.notes);
     console.log('notes', notes);
-    
+
     return (
         <div className='journal__entries'>
             {
@@ -15,7 +15,7 @@ export const JournalEntries = () => {
                                 key={ note.id }
                                 {...note}
                             />
-                })
+                }) 
             }
         </div>
     )
